@@ -1,8 +1,18 @@
 /** Class that determines whether or not a year is a leap year.
- *  @author YOUR NAME HERE
+ *  @author Joyce Wang
  */
 public class LeapYear {
-
+    /** isLeapYear method is used to check whether the given year is a leap year */
+    public static boolean isLeapYear(int year){
+          if (year%4 == 0){
+            if (year%100 != 0){
+                return true;
+            }
+        }else if (year%400 == 0){
+            return true;
+        }
+        return false;
+    }
     /** Calls isLeapYear to print correct statement.
      *  @param  year to be analyzed
      */
@@ -18,7 +28,7 @@ public class LeapYear {
     public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Please enter command line arguments.");
-            System.out.println("e.g. java Year 2000");
+            System.out.println("e.g. java LeapYear 2000");
         }
         for (int i = 0; i < args.length; i++) {
             try {
