@@ -25,8 +25,6 @@ public class NBody {
         Planet[] planets = readPlanets(filename);
         double radius = readRadius(filename);
 
-        //StdDraw.setXscal(-radius, radius);
-        //StdDraw.setYscal(-radius, radius);
         StdDraw.setScale(-radius, radius);
         StdDraw.enableDoubleBuffering();
         double t = 0;
