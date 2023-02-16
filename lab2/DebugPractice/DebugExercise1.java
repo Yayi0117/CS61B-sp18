@@ -5,6 +5,11 @@
 public class DebugExercise1 {
     public static int divideThenRound(int top, int bottom) {
         int quotient = top / bottom;
+        if (quotient==0){
+            if (top>=(bottom/2)){
+                quotient = 1;
+            }
+        }
         int result = Math.round(quotient);
         return result;
     }
