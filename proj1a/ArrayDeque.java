@@ -13,7 +13,14 @@ public class ArrayDeque <T> {
     /** Resizes the underlying array to the target capacity. */
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
-        System.arraycopy(items, 0, a, 0, items.length);
+        if (nextFirst != items.length-1) {
+            System.arraycopy(items,(nextFirst+1), a, 0, (items.length-(nextFirst+1)));
+            System.arraycopy(items,0, a, (items.length-(nextFirst+1)), (nextFirst+1));
+        }else{
+            System.arraycopy(items,0, a, 0, size);
+        }
+        nextFirst = cap -1;
+        nextLast = size;
         items = a;
     }
 
@@ -73,7 +80,7 @@ public class ArrayDeque <T> {
     }
 
     private void spaceCheck(){
-        double usageRatio = size/items.length;
+        double usageRatio = ((double) size)/items.length;
         if (usageRatio<0.25){
             resize(size*4);
         }
@@ -140,7 +147,12 @@ public class ArrayDeque <T> {
                 test.addLast(9);
                 test.addLast(10);
                 test.addLast(11);
+                test.addLast(12);
+                test.addLast(13);
                 test.addFirst(7);
+                test.addFirst(6);
+                test.addFirst(5);
+                test.addLast(14);
                 System.out.println(test.get(3));
                 test.printDeque();
                 int x = test.removeFirst();
