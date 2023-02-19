@@ -119,7 +119,19 @@ public class ArrayDeque <T> {
         }
     }
     public T get(int index) {
-        return items[index];
+        if (index<size) {
+            if ((nextFirst + 1) == items.length) {
+                return items[index];
+            }else {
+                int newIdex = nextFirst + 1 + index;
+                if (newIdex >= items.length){
+                    newIdex = newIdex - items.length;
+                }
+                return items[newIdex];
+            }
+        }else{
+            return null;
+        }
     }
 
      public static void main(String[] args) {
@@ -128,6 +140,7 @@ public class ArrayDeque <T> {
                 test.addLast(9);
                 test.addLast(10);
                 test.addLast(11);
+                test.addFirst(7);
                 System.out.println(test.get(3));
                 test.printDeque();
                 int x = test.removeFirst();
