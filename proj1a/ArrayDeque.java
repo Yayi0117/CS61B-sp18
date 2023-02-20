@@ -13,14 +13,18 @@ public class ArrayDeque <T> {
     /** Resizes the underlying array to the target capacity. */
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
-        if (nextFirst != items.length-1) {
+        if (nextFirst > nextLast) {
             System.arraycopy(items,(nextFirst+1), a, 0, (items.length-(nextFirst+1)));
             System.arraycopy(items,0, a, (items.length-(nextFirst+1)), (nextFirst+1));
         }else{
-            System.arraycopy(items,0, a, 0, size);
+            System.arraycopy(items,(nextFirst+1), a, 0, size);
         }
-        nextFirst = cap -1;
         nextLast = size;
+        if (size==0){
+            nextFirst = 0;
+        }else{
+            nextFirst = cap -1;
+        }
         items = a;
     }
 
@@ -146,13 +150,13 @@ public class ArrayDeque <T> {
             return null;
         }
     }
-
+/*
      public static void main(String[] args) {
-        /*
                 ArrayDeque<Integer> test = new ArrayDeque<>();
-                test.addFirst(8);
-                test.addLast(9);
-                test.addLast(10);
+                test.addFirst(0);
+                test.addFirst(1);
+                test.addLast(2);
+                int a = test.get(0);
                 test.addLast(11);
                 test.addLast(12);
                 test.addLast(13);
@@ -164,11 +168,11 @@ public class ArrayDeque <T> {
                 test.printDeque();
                 int x = test.removeFirst();
                 int y = test.removeLast();
-         */
          ArrayDeque<Integer> test1 = new ArrayDeque<>();
          test1.addFirst(0);
          int a = test1.removeLast();
          test1.addFirst(2);
          int b = test1.removeLast();
             }
+ */
 }
