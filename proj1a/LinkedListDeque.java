@@ -1,9 +1,9 @@
-public class LinkedListDeque<T>{
-    public class Items{
+public class LinkedListDeque < T > {
+    private class Items {
         public T item;
         public Items prev, next;
 
-        public Items(T i, Items p, Items n){
+        public Items (T i, Items p, Items n) {
             item = i;
             prev = p;
             next = n;
@@ -54,7 +54,7 @@ public class LinkedListDeque<T>{
         if (size!=0) {
             T result = sentinel.next.item;
             sentinel.next = sentinel.next.next;
-            sentinel.next.next.prev = sentinel;
+            sentinel.next.prev = sentinel;
             size = size - 1;
             return result;
         }else{
@@ -102,14 +102,22 @@ public class LinkedListDeque<T>{
             return helper(sentinel, index);
         }
     }
+/*
+     public static void main(String[] args) {
+          //LinkedListDeque<Integer> test = new LinkedListDeque<>();
+          //test.addFirst(8);
+          //test.addLast(9);
+          //test.printDeque();
+          //System.out.println(test.getRecursive(1));
+         LinkedListDeque<Integer> test1 = new LinkedListDeque<>();
+         test1.addLast(0);
+         test1.addLast(1);
+         int a = test1.removeFirst();
+         test1.addLast(3);
+         int b = test1.removeFirst();
+         test1.addLast(4);
+         int c = test1.removeLast();
+     }
 
-    /**used for testing:
-     * public static void main(String[] args) {
-     *         LinkedListDeque<Integer> test = new LinkedListDeque<>();
-     *         test.addFirst(8);
-     *         test.addLast(9);
-     *         test.printDeque();
-     *         System.out.println(test.getRecursive(1));
-     *     }
-     */
+ */
 }

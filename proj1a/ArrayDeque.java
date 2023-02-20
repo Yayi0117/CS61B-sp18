@@ -100,6 +100,9 @@ public class ArrayDeque <T> {
                 spaceCheck();
             }
             size = size - 1;
+            if (size==0){
+                nextLast = nextFirst;
+            }
             return result;
         } else {
             return null;
@@ -120,6 +123,9 @@ public class ArrayDeque <T> {
                 spaceCheck();
             }
             size = size - 1;
+            if (size==0){
+                nextFirst = nextLast;
+            }
             return result;
         }else{
             return null;
@@ -142,6 +148,7 @@ public class ArrayDeque <T> {
     }
 
      public static void main(String[] args) {
+        /*
                 ArrayDeque<Integer> test = new ArrayDeque<>();
                 test.addFirst(8);
                 test.addLast(9);
@@ -157,5 +164,11 @@ public class ArrayDeque <T> {
                 test.printDeque();
                 int x = test.removeFirst();
                 int y = test.removeLast();
+         */
+         ArrayDeque<Integer> test1 = new ArrayDeque<>();
+         test1.addFirst(0);
+         int a = test1.removeLast();
+         test1.addFirst(2);
+         int b = test1.removeLast();
             }
 }
