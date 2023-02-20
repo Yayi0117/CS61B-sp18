@@ -13,17 +13,18 @@ public class ArrayDeque <T> {
     /** Resizes the underlying array to the target capacity. */
     private void resize(int cap) {
         T[] a = (T[]) new Object[cap];
-        if (nextFirst > nextLast) {
-            System.arraycopy(items,(nextFirst+1), a, 0, (items.length-(nextFirst+1)));
-            System.arraycopy(items,0, a, (items.length-(nextFirst+1)), (nextFirst+1));
-        }else{
-            System.arraycopy(items,(nextFirst+1), a, 0, size);
-        }
-        nextLast = size;
-        if (size==0){
-            nextFirst = 0;
-        }else{
+        if (size!=0) {
+            if ((nextFirst > nextLast) || size == items.length) {
+                System.arraycopy(items, (nextFirst + 1), a, 0, (items.length - (nextFirst + 1)));
+                System.arraycopy(items, 0, a, (items.length - (nextFirst + 1)), (nextFirst + 1));
+            } else {
+                System.arraycopy(items, (nextFirst + 1), a, 0, size);
+            }
+            nextLast = size;
             nextFirst = cap -1;
+        }else{
+            nextLast = 0;
+            nextFirst = 0;
         }
         items = a;
     }
@@ -85,8 +86,10 @@ public class ArrayDeque <T> {
 
     private void spaceCheck(){
         double usageRatio = ((double) size)/items.length;
-        if (usageRatio<0.25){
+        if ((usageRatio<0.25)&&(usageRatio!=0)){
             resize(size*4);
+        }else  if (usageRatio==0) {
+            resize(8);
         }
     }
 
@@ -100,10 +103,10 @@ public class ArrayDeque <T> {
             }
             result = items[nextFirst];
             items[nextFirst] = null;
+            size = size - 1;
             if (items.length >= 16) {
                 spaceCheck();
             }
-            size = size - 1;
             if (size==0){
                 nextLast = nextFirst;
             }
@@ -123,10 +126,10 @@ public class ArrayDeque <T> {
             }
             result = items[nextLast];
             items[nextLast] = null;
+            size = size - 1;
             if (items.length >= 16) {
                 spaceCheck();
             }
-            size = size - 1;
             if (size==0){
                 nextFirst = nextLast;
             }
@@ -150,13 +153,13 @@ public class ArrayDeque <T> {
             return null;
         }
     }
-/*
+    /*
      public static void main(String[] args) {
                 ArrayDeque<Integer> test = new ArrayDeque<>();
                 test.addFirst(0);
                 test.addFirst(1);
                 test.addLast(2);
-                int a = test.get(0);
+                int i = test.get(0);
                 test.addLast(11);
                 test.addLast(12);
                 test.addLast(13);
@@ -167,12 +170,22 @@ public class ArrayDeque <T> {
                 System.out.println(test.get(3));
                 test.printDeque();
                 int x = test.removeFirst();
-                int y = test.removeLast();
+                 test.removeFirst();
+                 test.removeFirst();
+                 test.removeFirst();
+                 test.removeFirst();
+                 test.removeLast();
+                 test.removeLast();
+                 test.removeLast();
+                 test.removeLast();
+                 test.resize(20);
+                 test.removeLast();
+                 test.addFirst(0);
          ArrayDeque<Integer> test1 = new ArrayDeque<>();
          test1.addFirst(0);
          int a = test1.removeLast();
          test1.addFirst(2);
          int b = test1.removeLast();
             }
- */
+     */
 }
