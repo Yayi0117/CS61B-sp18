@@ -39,5 +39,7 @@ public class TestPalindrome {
         assertFalse(palindrome.isPalindrome("noon", cc));
         assertTrue(palindrome.isPalindrome("adhcb", cc));
         assertTrue(palindrome.isPalindrome("hjki", cc));
+        assertFalse(palindrome.isPalindrome("Flake", cc));
+        assertTrue(palindrome.isPalindrome("FlakE", cc));
     }
 }
