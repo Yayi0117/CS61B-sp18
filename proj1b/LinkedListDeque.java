@@ -1,4 +1,4 @@
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
     private class Items {
         public T item;
         public Items prev, next;
@@ -20,6 +20,7 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
+    @Override
     public void addFirst(T item){
         Items newNode = new Items(item,sentinel,sentinel.next);
         sentinel.next.prev = newNode;
@@ -27,6 +28,7 @@ public class LinkedListDeque<T> {
         size += 1;
     }
 
+    @Override
     public void addLast(T item){
         Items newNode = new Items(item,sentinel.prev,sentinel);
         sentinel.prev.next = newNode;
@@ -34,14 +36,17 @@ public class LinkedListDeque<T> {
         size += 1;
     }
 
+    @Override
     public boolean isEmpty(){
         return size==0;
     }
 
+    @Override
     public int size(){
         return size;
     }
 
+    @Override
     public void printDeque(){
         Items current = sentinel.next;
         while(current!=sentinel){
@@ -50,6 +55,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+    @Override
     public T removeFirst(){
         if (size!=0) {
             T result = sentinel.next.item;
@@ -62,6 +68,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+    @Override
     public T removeLast(){
         if (size!=0) {
             T result = sentinel.prev.item;
@@ -74,6 +81,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+    @Override
     public T get(int index){
         if ((size==0)|(index>=size)){
             return null;
@@ -102,22 +110,4 @@ public class LinkedListDeque<T> {
             return helper(sentinel, index);
         }
     }
-/*
-     public static void main(String[] args) {
-          //LinkedListDeque<Integer> test = new LinkedListDeque<>();
-          //test.addFirst(8);
-          //test.addLast(9);
-          //test.printDeque();
-          //System.out.println(test.getRecursive(1));
-         LinkedListDeque<Integer> test1 = new LinkedListDeque<>();
-         test1.addLast(0);
-         test1.addLast(1);
-         int a = test1.removeFirst();
-         test1.addLast(3);
-         int b = test1.removeFirst();
-         test1.addLast(4);
-         int c = test1.removeLast();
-     }
-
- */
 }
