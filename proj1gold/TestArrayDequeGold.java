@@ -3,14 +3,13 @@ import org.junit.Test;
 public class TestArrayDequeGold {
     @Test
     public void testStudentArrayDeque() {
-        String message = "";
-        StudentArrayDeque<Integer> student = new StudentArrayDeque<>();
-        ArrayDequeSolution<Integer> solution = new ArrayDequeSolution<>();
-        /** @source StudentArrayDequeLauncher  */
         for (int i = 0; i < 10; i += 1) {
-            double numberBetweenZeroAndOne1 = StdRandom.uniform();
+            String message = "";
+            StudentArrayDeque<Integer> student = new StudentArrayDeque<>();
+            ArrayDequeSolution<Integer> solution = new ArrayDequeSolution<>();
             Integer actual;
             Integer expect;
+            double numberBetweenZeroAndOne1 = StdRandom.uniform();
             if (numberBetweenZeroAndOne1 < 0.5) {
                 int random1 = StdRandom.uniform(9);
                 while (random1!=0){
@@ -31,26 +30,36 @@ public class TestArrayDequeGold {
             double numberBetweenZeroAndOne2 = StdRandom.uniform();
             if (numberBetweenZeroAndOne2 < 0.5) {
                 int random3 = StdRandom.uniform(9);
-                while ((random3!=0) && (student.size()>1)){
+                while ((random3!=0) && (!student.isEmpty())){
                     Integer result = student.removeLast();
                     solution.removeLast();
                     message += String.format("removeLast():%d\n",result);
                     random3--;
                 }
+                if (student.isEmpty() || solution.isEmpty()) {
+                    // Skip this iteration of the loop
+                    continue;
+                }
                 actual = student.removeLast();
-                expect = solution.removeFirst();
+                expect = solution.removeLast();
+                message += String.format("removeLast():%d\n",actual);
             } else {
                 int random4 = StdRandom.uniform(9);
-                while ((random4!=0) && (student.size()>1)){
+                while ((random4!=0) && (!student.isEmpty())){
                     Integer result = student.removeFirst();
                     solution.removeFirst();
                     message += String.format("removeFirst():%d\n",result);;
                     random4--;
                 }
+                if (student.isEmpty() || solution.isEmpty()) {
+                    // Skip this iteration of the loop
+                    continue;
+                }
                 actual = student.removeFirst();
                 expect = solution.removeFirst();
+                message += String.format("removeFirst():%d\n",actual);;
             }
-            assertEquals(message,actual,expect);
+            assertEquals(message,expect,actual);
         }
     }
 }
