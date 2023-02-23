@@ -35,9 +35,9 @@ public class TestArrayDequeGold {
                     expect = solution.removeLast();
                     if (actual == null) {
                         // Skip this iteration of the loop
-                        continue;
+                        break;
                     }
-                    message += String.format("removeLast(): %d\n",actual);
+                    message += String.format("removeLast():%d\n",actual);
                     assertEquals(message,expect,actual);
                     random3--;
                 }
@@ -48,7 +48,7 @@ public class TestArrayDequeGold {
                     expect = solution.removeFirst();
                     if (actual == null) {
                         // Skip this iteration of the loop
-                        continue;
+                        break;
                     }
                     message += String.format("removeFirst(): %d\n",actual);
                     assertEquals(message,expect,actual);
