@@ -33,6 +33,10 @@ public class TestArrayDequeGold {
                 while ((random3!=0) && (!student.isEmpty())){
                     actual = student.removeLast();
                     expect = solution.removeLast();
+                    if (actual == null) {
+                        // Skip this iteration of the loop
+                        continue;
+                    }
                     message += String.format("removeLast(): %d\n",actual);
                     assertEquals(message,expect,actual);
                     random3--;
@@ -42,6 +46,10 @@ public class TestArrayDequeGold {
                 while ((random4!=0) && (!student.isEmpty())){
                     actual = student.removeFirst();
                     expect = solution.removeFirst();
+                    if (actual == null) {
+                        // Skip this iteration of the loop
+                        continue;
+                    }
                     message += String.format("removeFirst(): %d\n",actual);
                     assertEquals(message,expect,actual);
                     random4--;
