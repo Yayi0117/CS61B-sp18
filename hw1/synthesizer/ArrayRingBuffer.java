@@ -9,7 +9,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Array for storing the buffer data. */
     private T[] rb;
 
-    private class bufferIterator implements Iterator<T>{
+    private class bufferIterator implements Iterator<T> {
         private int pointer;
         public bufferIterator() {
             pointer = 0;
@@ -83,12 +83,15 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Return oldest item, but don't remove it.
      */
     public T peek() {
-        return rb[first];
+        if (first == last) {
+            throw new RuntimeException("Ring buffer overflow");
+        } else {
+            return rb[first];
+        }
     }
 
     @Override
-    public Iterator<T> iterator(){
+    public Iterator<T> iterator() {
         return new bufferIterator();
     }
-    // TODO: When you get to part 5, implement the needed code to support iteration.
 }
