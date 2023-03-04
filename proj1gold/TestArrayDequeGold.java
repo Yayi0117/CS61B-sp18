@@ -34,7 +34,7 @@ public class TestArrayDequeGold {
                     actual = student.removeLast();
                     expect = solution.removeLast();
                     if (actual == null) {
-                        // Skip this iteration of the loop
+                        // begin next loop
                         break;
                     }
                     message += String.format("removeLast():%d\n",actual);
@@ -47,7 +47,7 @@ public class TestArrayDequeGold {
                     actual = student.removeFirst();
                     expect = solution.removeFirst();
                     if (actual == null) {
-                        // Skip this iteration of the loop
+                        // begin next loop
                         break;
                     }
                     message += String.format("removeFirst(): %d\n",actual);
