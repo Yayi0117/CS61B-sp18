@@ -9,9 +9,9 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Array for storing the buffer data. */
     private T[] rb;
 
-    private class bufferIterator implements Iterator<T> {
+    private class BufferIterator implements Iterator<T> {
         private int pointer;
-        public bufferIterator() {
+        public BufferIterator() {
             pointer = 0;
         }
         public boolean hasNext() {
@@ -92,6 +92,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new bufferIterator();
+        return new BufferIterator();
     }
 }
