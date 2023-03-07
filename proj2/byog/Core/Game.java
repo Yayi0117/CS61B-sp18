@@ -1,8 +1,7 @@
 package byog.Core;
-
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
-import java.util.Random;
+
 
 public class Game {
     TERenderer ter = new TERenderer();
@@ -41,7 +40,7 @@ public class Game {
 
     public static void main(String[] arg) {
         Game test = new Game();
-        TETile[][] world = test.playWithInputString("177S");
+        TETile[][] world = test.playWithInputString("109777S");
         test.ter.initialize(WIDTH, HEIGHT);
         test.ter.renderFrame(world);
     }

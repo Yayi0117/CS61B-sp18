@@ -29,8 +29,8 @@ public class WorldGenerator {
         // The method that checks if the room intersects with another room
         public boolean intersects(Room other) {
             // Check if the horizontal and vertical projections of the rooms overlap
-            return (this.x < other.x + other.w && this.x + this.w > other.x &&
-                    this.y < other.y + other.h && this.y + this.h > other.y);
+            return (this.x < other.x + other.w && this.x + this.w > other.x
+                    && this.y < other.y + other.h && this.y + this.h > other.y);
         }
     }
     public WorldGenerator(int width, int height, long seed) {
@@ -42,6 +42,30 @@ public class WorldGenerator {
         generateWorld();
     }
     private void generateWorld() {
+        // generate random rooms in the current world
+        generateRooms();
+        // Create hallways between adjacent rooms
+        generateHallways();
+        // Add walls around the floor tiles
+        for (int m1 = 0; m1 < width; m1++) {
+            for (int n = 0; n < height; n++) {
+                if (tiles[m1][n].description().equals("floor")) {
+                    int[][] directions = new int[][]
+                            {{-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}};
+                    for (int[] pair : directions) {
+                        int h = m1 + pair[0];
+                        int v = n + pair[1];
+                        if (!tiles[h][v].description().equals("floor")) {
+                            tiles[h][v] = Tileset.WALL;
+                        }
+                    }
+                }
+            }
+        }
+        generateGate();
+    }
+
+    private void generateRooms() {
         // Fill the grid with wall tiles
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -51,8 +75,9 @@ public class WorldGenerator {
         // Define the size of the grid and the number of rooms
         int m = random.nextInt(50) + 15; // number of rooms
 
-        // Create a list of rooms, where each room is an object with x, y, width, and height properties
-        ArrayList<Room> rooms = new ArrayList<Room>();
+        // Create a list of rooms, where each room is an object with
+        // x, y, width, and height properties
+        rooms = new ArrayList<Room>();
 
         // Randomly generate rooms and add them to the grid and the list
         for (int k = 0; k < m; k++) {
@@ -85,8 +110,9 @@ public class WorldGenerator {
                 rooms.add(room);
             }
         }
+    }
 
-        // Create hallways between adjacent rooms
+    private void generateHallways() {
         for (int k = 0; k < rooms.size() - 1; k++) {
             // Get the centers of the current room and the next room
             Room r1 = rooms.get(k);
@@ -100,7 +126,8 @@ public class WorldGenerator {
             int dir = random.nextBoolean() ? 0 : 1;
             //int dir = random.nextInt(2);
 
-            // If horizontal, create a horizontal line from x1 to x2 and a vertical line from y1 to y2
+            // If horizontal, create a horizontal line
+            // from x1 to x2 and a vertical line from y1 to y2
             if (dir == 0) {
                 // Fill the grid with floor tiles for the horizontal line
                 for (int i = Math.min(x1, x2); i <= Math.max(x1, x2); i++) {
@@ -110,7 +137,9 @@ public class WorldGenerator {
                 for (int j = Math.min(y1, y2); j <= Math.max(y1, y2); j++) {
                     tiles[x2][j] = Tileset.FLOOR;
                 }
-            } else { // If vertical, create a vertical line from y1 to y2 and a horizontal line from x1 to x2
+            } else {
+                // If vertical, create a vertical line
+                // from y1 to y2 and a horizontal line from x1 to x2.
                 // Fill the grid with floor tiles for the vertical line
                 for (int j = Math.min(y1, y2); j <= Math.max(y1, y2); j++) {
                     tiles[x1][j] = Tileset.FLOOR;
@@ -121,22 +150,6 @@ public class WorldGenerator {
                 }
             }
         }
-        // Add walls around the floor tiles
-        for (int m1 = 0; m1 < width; m1++) {
-            for (int n = 0; n < height; n++) {
-                if (tiles[m1][n].description().equals("floor")) {
-                    int[][] directions = new int[][]{{-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}};
-                    for (int[] pair : directions) {
-                        int h = m1 + pair[0];
-                        int v = n + pair[1];
-                        if (!tiles[h][v].description().equals("floor")) {
-                            tiles[h][v] = Tileset.WALL;
-                        }
-                    }
-                }
-            }
-        }
-        generateGate();
     }
     public int[] generateGate() {
         ArrayList<int[]> walls = new ArrayList<>();
@@ -144,14 +157,16 @@ public class WorldGenerator {
             for (int v1 = 0; v1 < height; v1++) {
                 if (tiles[h1][v1].description().equals("wall")) {
                     try {
-                        if ( (tiles[h1 - 1][v1].description().equals("floor") ||
-                                tiles[h1 + 1][v1].description().equals("floor") ||
-                                tiles[h1][v1 - 1].description().equals("floor") ||
-                                tiles[h1][v1 + 1].description().equals("floor"))) {
+                        if ((tiles[h1 - 1][v1].description().equals("floor")
+                                || tiles[h1 + 1][v1].description().equals("floor")
+                                || tiles[h1][v1 - 1].description().equals("floor")
+                                || tiles[h1][v1 + 1].description().equals("floor"))) {
                             int[] location = new int[]{h1, v1};
                             walls.add(location);
                         }
-                    } catch (Exception e) { }
+                    } catch (Exception e) {
+                        continue;
+                    }
                 }
             }
         }
