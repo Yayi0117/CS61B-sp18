@@ -82,20 +82,16 @@ public class Game implements Serializable {
             int yBefore = playerPosition[1];
             finalWorldFrame[xBefore][yBefore] = Tileset.FLOOR;
             switch (commands.charAt(i)) {
-                //case 'W', 'w':
-                case 'W':
+                case 'W', 'w':
                     playerPosition[1] += 1; // move up
                     break;
-                //case 'A', 'a':
-                case 'A':
+                case 'A', 'a':
                     playerPosition[0] -= 1; // move left
                     break;
-                //case 'S', 's':
-                case 'S':
+                case 'S', 's':
                     playerPosition[1] -= 1; // move down
                     break;
-                //case 'D', 'd':
-                case 'D':
+                case 'D', 'd':
                     playerPosition[0] += 1; // move right
                     break;
                 case ':':
@@ -168,20 +164,16 @@ public class Game implements Serializable {
                 finalWorldFrame[xBefore][yBefore] = Tileset.FLOOR;
                 //finalWorldFrame[xBefore][yBefore].draw(xBefore,yBefore);
                 switch (direction) {
-                    //case 'W', 'w':
-                    case 'W':
+                    case 'W', 'w':
                         playerPosition[1] += 1; // move up
                         break;
-                    //case 'A', 'a':
-                    case 'A':
+                    case 'A', 'a':
                         playerPosition[0] -= 1; // move left
                         break;
-                    //case 'S', 's':
-                    case 'S':
+                    case 'S', 's':
                         playerPosition[1] -= 1; // move down
                         break;
-                    //case 'D', 'd':
-                    case 'D':
+                    case 'D', 'd':
                         playerPosition[0] += 1; // move right
                         break;
                     default: break;
@@ -235,10 +227,10 @@ public class Game implements Serializable {
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 char key = StdDraw.nextKeyTyped();
+                if (key == 'S') {
+                    break;
+                }
                 inputSeed += String.valueOf(key);
-            }
-            if (StdDraw.isKeyPressed(KeyEvent.VK_ENTER)){
-                break;
             }
         }
         return Long.parseLong(inputSeed);
