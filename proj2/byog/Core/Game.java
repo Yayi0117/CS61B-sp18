@@ -318,9 +318,9 @@ public class Game implements Serializable {
         TETile[][] finalWorldFrame = null;
         char command = input.charAt(0);
         if (command == 'N') {
-            finalWorldFrame = beginNewGame(input);
+            finalWorldFrame = beginNewGame(input.toUpperCase());
         } else if (command == 'L') {
-            finalWorldFrame = beginLastGame(input);
+            finalWorldFrame = beginLastGame(input.toUpperCase());
         } else if (command == 'Q') {
             System.exit(0);
         }
