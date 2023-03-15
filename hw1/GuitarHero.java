@@ -17,7 +17,6 @@ public class GuitarHero {
         //synthesizer.GuitarString stringC = new synthesizer.GuitarString(CONCERT_C);
 
         while (true) {
-            String keyboard = "q2we4  ";
             /* check if the user has typed a key; if so, process it */
             if (StdDraw.hasNextKeyTyped()) {
                 char key = StdDraw.nextKeyTyped();

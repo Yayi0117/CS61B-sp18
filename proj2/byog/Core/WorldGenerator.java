@@ -1,17 +1,22 @@
 package byog.Core;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-public class WorldGenerator {
+public class WorldGenerator implements Serializable {
     private int width;
     private int height;
     private TETile[][] tiles;
     private Random random;
     private ArrayList<Room> rooms;
+    private int[] gateLocation;
+    private int[] playerPosition;
+    private ArrayList<int[]> hallwayTiles;
+    private ArrayList<int[]> wallTiles;
 
-    private class Room {
+    private class Room implements Serializable {
         // The properties of the room
         int x;
         int y;
@@ -43,7 +48,9 @@ public class WorldGenerator {
     }
     private void generateWorld() {
         // generate random rooms in the current world
-        generateRooms();
+        // Define the number of rooms
+        int m = random.nextInt(50) + 15; // number of rooms
+        generateRooms(m);
         // Create hallways between adjacent rooms
         generateHallways();
         // Add walls around the floor tiles
@@ -63,17 +70,16 @@ public class WorldGenerator {
             }
         }
         generateGate();
+        addPlayer();
     }
 
-    private void generateRooms() {
+    private void generateRooms( int m) {
         // Fill the grid with wall tiles
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 tiles[x][y] = Tileset.NOTHING;
             }
         }
-        // Define the size of the grid and the number of rooms
-        int m = random.nextInt(50) + 15; // number of rooms
 
         // Create a list of rooms, where each room is an object with
         // x, y, width, and height properties
@@ -113,6 +119,7 @@ public class WorldGenerator {
     }
 
     private void generateHallways() {
+        hallwayTiles = new ArrayList<int[]>();
         for (int k = 0; k < rooms.size() - 1; k++) {
             // Get the centers of the current room and the next room
             Room r1 = rooms.get(k);
@@ -132,10 +139,14 @@ public class WorldGenerator {
                 // Fill the grid with floor tiles for the horizontal line
                 for (int i = Math.min(x1, x2); i <= Math.max(x1, x2); i++) {
                     tiles[i][y1] = Tileset.FLOOR;
+                    int[] coordination1 = new int[]{i,y1};
+                    hallwayTiles.add(coordination1);
                 }
                 // Fill the grid with floor tiles for the vertical line
                 for (int j = Math.min(y1, y2); j <= Math.max(y1, y2); j++) {
                     tiles[x2][j] = Tileset.FLOOR;
+                    int[] coordination2 = new int[]{x2,j};
+                    hallwayTiles.add(coordination2);
                 }
             } else {
                 // If vertical, create a vertical line
@@ -143,45 +154,70 @@ public class WorldGenerator {
                 // Fill the grid with floor tiles for the vertical line
                 for (int j = Math.min(y1, y2); j <= Math.max(y1, y2); j++) {
                     tiles[x1][j] = Tileset.FLOOR;
+                    int[] coordination1 = new int[]{x1,j};
+                    hallwayTiles.add(coordination1);
                 }
                 // Fill the grid with floor tiles for the horizontal line
                 for (int i = Math.min(x1, x2); i <= Math.max(x1, x2); i++) {
                     tiles[i][y2] = Tileset.FLOOR;
+                    int[] coordination2 = new int[]{i,y2};
+                    hallwayTiles.add(coordination2);
                 }
             }
         }
     }
-    public int[] generateGate() {
-        ArrayList<int[]> walls = new ArrayList<>();
+    public void generateGate() {
+        wallTiles = new ArrayList<>();
         for (int h1 = 0; h1 < width; h1++) {
             for (int v1 = 0; v1 < height; v1++) {
                 if (tiles[h1][v1].description().equals("wall")) {
-                    try {
+                    // avoid index error
+                    if (h1 > 0 && h1 < tiles.length - 1 && v1 > 0 && v1 < tiles[0].length - 1) {
                         if ((tiles[h1 - 1][v1].description().equals("floor")
                                 || tiles[h1 + 1][v1].description().equals("floor")
                                 || tiles[h1][v1 - 1].description().equals("floor")
                                 || tiles[h1][v1 + 1].description().equals("floor"))) {
                             int[] location = new int[]{h1, v1};
-                            walls.add(location);
+                            wallTiles.add(location);
                         }
-                    } catch (Exception e) {
-                        continue;
                     }
                 }
             }
         }
-        int gateIndex = random.nextInt(walls.size());
-        int[] gateLocation = walls.get(gateIndex);
+        int gateIndex = random.nextInt(wallTiles.size());
+        gateLocation = wallTiles.get(gateIndex);
         tiles[gateLocation[0]][gateLocation[1]] = Tileset.UNLOCKED_DOOR;
-        return gateLocation;
+        wallTiles.remove(gateIndex);
+    }
+
+    private void addPlayer() {
+        int index = random.nextInt(hallwayTiles.size());
+        playerPosition = hallwayTiles.get(index);
+        tiles[playerPosition[0]][playerPosition[1]] = Tileset.PLAYER;
+    }
+
+    public int[] getPlayerPosition() {
+        return playerPosition;
     }
 
     public TETile[][] getTiles() {
         return tiles;
     }
 
-    public ArrayList<Room> getRooms() {
-        return rooms;
+    public int[] getGateLocation() {
+        return gateLocation;
+    }
+    public ArrayList<int[]> getWallTiles() {
+        return wallTiles;
+    }
+
+    public boolean containsSameItems(ArrayList<int[]> list, int[] array) {
+        for (int[] item : list) { // loop through each int[] in the list
+            if (item[0] == array[0] && item[1] == array[1]) { // compare each int[] with the given array
+                return true; // return true if they are equal
+            }
+        }
+        return false; // return false if none of them are equal
     }
 
 }
