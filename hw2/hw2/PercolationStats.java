@@ -9,11 +9,11 @@ public class PercolationStats {
 
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
-        x = new double[T];
-        this.T = T;
-        if (N < 0 || T < 0) {
+        if (N < 0 || T < 1) {
             throw new IllegalArgumentException();
         }
+        x = new double[T];
+        this.T = T;
         for (int i = 0; i < T; i++) {
             Percolation test = pf.make(N);
             while (!test.percolates()) {
@@ -21,7 +21,7 @@ public class PercolationStats {
                 int col = StdRandom.uniform(N);
                 test.open(row, col);
             }
-            x[i] = test.numberOfOpenSites() / (N * N);
+            x[i] = (double) test.numberOfOpenSites() / (N * N);
         }
     }
 
