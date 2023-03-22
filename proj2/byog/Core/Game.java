@@ -164,16 +164,16 @@ public class Game implements Serializable {
                 finalWorldFrame[xBefore][yBefore] = Tileset.FLOOR;
                 //finalWorldFrame[xBefore][yBefore].draw(xBefore,yBefore);
                 switch (direction) {
-                    case 'W':
+                    case 'W','w':
                         playerPosition[1] += 1; // move up
                         break;
-                    case 'A':
+                    case 'A','a':
                         playerPosition[0] -= 1; // move left
                         break;
-                    case 'S':
+                    case 'S','s':
                         playerPosition[1] -= 1; // move down
                         break;
-                    case 'D':
+                    case 'D','d':
                         playerPosition[0] += 1; // move right
                         break;
                     default: break;
