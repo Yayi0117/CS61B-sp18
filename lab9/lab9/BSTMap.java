@@ -7,7 +7,7 @@ import java.util.*;
  *
  * @author Your name here
  */
-public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> ,Iterable<K> {
+public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>, Iterable<K> {
 
     private class Node {
         /* (K, V) pair stored in this Node. */
@@ -77,7 +77,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> ,Iterabl
             int cmp = p.key.compareTo(key);
             if  (cmp > 0) {
                 p.left = putHelper(key, value, p.left);
-            } else if (cmp < 0){
+            } else if (cmp < 0) {
                 p.right =  putHelper(key, value, p.right);
             }
             return p;
@@ -89,7 +89,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> ,Iterabl
      */
     @Override
     public void put(K key, V value) {
-        root = putHelper(key,value,root);
+        root = putHelper(key, value, root);
     }
 
     /* Returns the number of key-value mappings in this map. */
@@ -111,7 +111,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> ,Iterabl
         return keyset;
     }
 
-    private Queue<K> preOrderTraversal (Node p) {
+    private Queue<K> preOrderTraversal(Node p) {
         Queue<K> queue = new LinkedList<>();
         if (p != null) {
             preOrderTraversal(p.left);
@@ -133,7 +133,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> ,Iterabl
     }
 
     private Node removeHelper(K key, Node p) {
-        if ( p == null) {
+        if (p == null) {
             return null;
         }
         int cmp = key.compareTo(p.key);
@@ -159,8 +159,11 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> ,Iterabl
         return p;
     }
     private Node min(Node p) {
-        if (p.left == null) return p;
-        else  return min(p.left);
+        if (p.left == null) {
+            return p;
+        } else {
+            return min(p.left);
+        }
     }
 
     private Node romoveMin(Node p) {
