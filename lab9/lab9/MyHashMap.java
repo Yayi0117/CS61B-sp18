@@ -1,5 +1,6 @@
 package lab9;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import java.util.Set;
  *  A hash table-backed Map implementation. Provides amortized constant time
  *  access to elements via get(), remove(), and put() in the best case.
  *
- *  @author Your name here
+ *  @author Yayi Wang
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
 
@@ -53,19 +54,32 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        int hashCode = hash(key);
+        if (buckets[hashCode].containsKey(key)) {
+            return buckets[hashCode].get(key);
+        }
+        return null;
     }
 
     /* Associates the specified value with the specified key in this map. */
     @Override
     public void put(K key, V value) {
-        throw new UnsupportedOperationException();
+        int hashCode = hash(key);
+        if (!buckets[hashCode].containsKey(key)) {
+            buckets[hashCode].put(key, value);
+            size++;
+        } else {
+            if (!get(key).equals(value)) {
+                remove(key);
+                buckets[hashCode].put(key, value);
+            }
+        }
     }
 
     /* Returns the number of key-value mappings in this map. */
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
@@ -73,7 +87,13 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set keySet = new HashSet();
+        for (ArrayMap<K,V> each : buckets) {
+            for (K item : each) {
+                keySet.add(item);
+            }
+        }
+        return keySet;
     }
 
     /* Removes the mapping for the specified key from this map if exists.
@@ -81,7 +101,13 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * UnsupportedOperationException. */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        if (containsKey(key)) {
+            V value = get(key);
+            int hashCode = hash(key);
+            buckets[hashCode].remove(key);
+            return value;
+        };
+        return null;
     }
 
     /* Removes the entry for the specified key only if it is currently mapped to
@@ -89,11 +115,18 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * throw an UnsupportedOperationException.*/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (containsKey(key)) {
+            if (value.equals(get(key))) {
+                int hashCode = hash(key);
+                buckets[hashCode].remove(key);
+                return value;
+            }
+        };
+        return null;
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return keySet().iterator();
     }
 }
