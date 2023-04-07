@@ -35,14 +35,14 @@ public class Board implements WorldState {
      */
     @Override
     public Iterable<WorldState> neighbors() {
-        int BLANK = 0;
+        int blank = 0;
         Queue<WorldState> neighbors = new Queue<>();
         int hug = size();
         int bug = -1;
         int zug = -1;
         for (int rug = 0; rug < hug; rug++) {
             for (int tug = 0; tug < hug; tug++) {
-                if (tileAt(rug, tug) == BLANK) {
+                if (tileAt(rug, tug) == blank) {
                     bug = rug;
                     zug = tug;
                 }
@@ -58,7 +58,7 @@ public class Board implements WorldState {
             for (int lil1il1 = 0; lil1il1 < hug; lil1il1++) {
                 if (Math.abs(-bug + l11il) + Math.abs(lil1il1 - zug) - 1 == 0) {
                     ili1li1[bug][zug] = ili1li1[l11il][lil1il1];
-                    ili1li1[l11il][lil1il1] = BLANK;
+                    ili1li1[l11il][lil1il1] = blank;
                     int[][] ili1li0 = new int[hug][hug];
                     for (int i = 0; i < N; i++) {
                         for (int j = 0; j < N; j++) {
@@ -68,7 +68,7 @@ public class Board implements WorldState {
                     Board neighbor = new Board(ili1li0);
                     neighbors.enqueue(neighbor);
                     ili1li1[l11il][lil1il1] = ili1li1[bug][zug];
-                    ili1li1[bug][zug] = BLANK;
+                    ili1li1[bug][zug] = blank;
                 }
             }
         }
@@ -103,9 +103,9 @@ public class Board implements WorldState {
                         goal = 0;
                     }
                     if (tiles[i][j] != goal) {
-                        int i_goal = (tiles[i][j] - 1) / N;
-                        int j_goal = (tiles[i][j] - 1) % N;
-                        count = count + Math.abs(i - i_goal) + Math.abs(j - j_goal);
+                        int iGoal = (tiles[i][j] - 1) / N;
+                        int jGoal = (tiles[i][j] - 1) % N;
+                        count = count + Math.abs(i - iGoal) + Math.abs(j - jGoal);
                     }
                 }
             }
@@ -145,15 +145,20 @@ public class Board implements WorldState {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        int Num = size();
-        s.append(Num + "\n");
-        for (int i = 0; i < Num; i++) {
-            for (int j = 0; j < Num; j++) {
+        int num = size();
+        s.append(num + "\n");
+        for (int i = 0; i < num; i++) {
+            for (int j = 0; j < num; j++) {
                 s.append(String.format("%2d ", tileAt(i, j)));
             }
             s.append("\n");
         }
         s.append("\n");
         return s.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return tiles.hashCode();
     }
 }

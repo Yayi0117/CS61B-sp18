@@ -4,13 +4,13 @@ import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Stack;
 
 public class Solver {
-    private final SearchNode goal;
+    private SearchNode goal;
     private Stack<WorldState> path;
     private class SearchNode implements Comparable<SearchNode> {
-        public WorldState word;
-        public int moves;
-        public SearchNode parent;
-        public int heuristic;
+        WorldState word;
+        int moves;
+        SearchNode parent;
+        int heuristic;
         SearchNode(WorldState word, int moves, SearchNode parent) {
             this.word = word;
             this.moves = moves;
