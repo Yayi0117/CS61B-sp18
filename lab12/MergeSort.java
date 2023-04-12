@@ -35,10 +35,10 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         Queue<Queue<Item>> result = new Queue<>();
-        while (!items.isEmpty()) {
-            Queue<Item> each = new Queue<>();
-            each.enqueue(items.dequeue());
-            result.enqueue(each);
+        for (Item each : items) {
+            Queue<Item> eachQueue = new Queue<>();
+            eachQueue.enqueue(each);
+            result.enqueue(eachQueue);
         }
         return result;
     }
@@ -73,6 +73,7 @@ public class MergeSort {
             return items;
         }
         Queue<Queue<Item>> singleQueues = makeSingleItemQueues(items);
+        for (int i = 0; i < items.size(); i++)
         while (singleQueues.size() != 1) {
             Queue<Item> q1 = singleQueues.dequeue();
             Queue<Item> q2 = singleQueues.dequeue();
