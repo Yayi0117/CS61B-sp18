@@ -16,8 +16,20 @@ public class RadixSort {
      * @return String[] the sorted array
      */
     public static String[] sort(String[] asciis) {
-        // TODO: Implement LSD Sort
-        return null;
+        int maxLength = 0;
+        String[] copy = new String[asciis.length];
+        int copyIndex = 0;
+        for (String string : asciis) {
+            if (string.length() > maxLength) {
+                maxLength = string.length();
+            }
+            copy[copyIndex] = string;
+            copyIndex++;
+        }
+        for (int d = maxLength - 1; d >= 0; d--) {
+            sortHelperLSD(copy, d);
+        }
+        return copy;
     }
 
     /**
@@ -27,9 +39,40 @@ public class RadixSort {
      * @param index The position to sort the Strings on.
      */
     private static void sortHelperLSD(String[] asciis, int index) {
-        // Optional LSD helper method for required LSD radix sort
-        return;
+        int max = 255;
+        // gather all the counts for each value
+        int[] counts = new int[max + 1];
+        for (String string : asciis) {
+            if ((string.length() - 1) < index) {
+                counts[0]++;
+            } else {
+                int i = (int) string.charAt(index);
+                counts[i]++;
+            }
+        }
+        // counting sort that uses start position calculation
+        int[] starts = new int[max + 1];
+        int pos = 0;
+        for (int i = 0; i < starts.length; i += 1) {
+            starts[i] = pos;
+            pos += counts[i];
+        }
+        String[] copied = new String[asciis.length];
+        for (int i = 0; i < asciis.length; i += 1) {
+            copied[i] = asciis[i];
+        }
+        for (int i = 0; i < asciis.length; i += 1) {
+            String string = copied[i];
+            int item = 0;
+            if ((string.length() - 1) >= index) {
+                item = (int) string.charAt(index);
+            }
+            int place = starts[item];
+            asciis[place] = string;
+            starts[item] += 1;
+        }
     }
+
 
     /**
      * MSD radix sort helper function that recursively calls itself to achieve the sorted array.
