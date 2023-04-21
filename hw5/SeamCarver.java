@@ -39,30 +39,18 @@ public class SeamCarver {
         if (down > height() - 1) {
             down = 0;
         }
-        int[] rgbMusX = getRBGs(left, y);
-        int[] rgbPluX = getRBGs(right, y);
-        int[] rgbMusY = getRBGs(x, up);
-        int[] rgbPluY = getRBGs(x, down);
-        int rX = rgbPluX[0] - rgbMusX[0];
-        int gX = rgbPluX[1] - rgbMusX[1];
-        int bX = rgbPluX[2] - rgbMusX[2];
-        int rY = rgbPluY[0] - rgbMusY[0];
-        int gY = rgbPluY[1] - rgbMusY[1];
-        int bY = rgbPluY[2] - rgbMusY[2];
+        Color pixelLeft, pixelRight, pixelUp, pixelDown;
+        pixelLeft = picture.get(left, y);
+        pixelRight = picture.get(right, y);
+        pixelUp = picture.get(x, up);
+        pixelDown = picture.get(x, down);
+        int rX = pixelRight.getRed() - pixelLeft.getRed();
+        int gX = pixelRight.getGreen() - pixelLeft.getGreen();
+        int bX = pixelRight.getBlue() - pixelLeft.getBlue();
+        int rY = pixelDown.getRed() - pixelUp.getRed();
+        int gY = pixelDown.getGreen() - pixelUp.getGreen();
+        int bY = pixelDown.getBlue() - pixelUp.getBlue();
         return rX * rX + bX * bX + gX * gX + rY * rY + bY * bY + gY * gY;
-    }
-
-    private int[] getRBGs (int x, int y) {
-        int rgb = picture.getRGB(x, y);
-        Color myColor = new Color(rgb);
-        int red = myColor.getRed();
-        int green = myColor.getGreen();
-        int blue = myColor.getBlue();
-        int[] rgbs = new int[3];
-        rgbs[0] = red;
-        rgbs[1] = green;
-        rgbs[2] = blue;
-        return rgbs;
     }
     public int[] findHorizontalSeam() {
         return findSeam('h');
