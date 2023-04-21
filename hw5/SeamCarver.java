@@ -102,10 +102,10 @@ public class SeamCarver {
             for (int w = 0; w < WIDTH; w++) {
                 paths[w][h] = w;
             }
-            int[][] patsOld = new int[WIDTH][h+1];
+            int[][] pathsOld = new int[WIDTH][h+1];
             for (int i = 0; i < WIDTH; i++) {
                 for (int j = 0; j < h; j++){
-                    patsOld[i][j] = paths[i][j];
+                    pathsOld[i][j] = paths[i][j];
                 }
             }
             HashMap<Integer, Double> minEnergyThisRow = new HashMap<>();
@@ -133,7 +133,7 @@ public class SeamCarver {
                 for (int pre = h-1; pre >= 0; pre--) {
                     paths[w][pre] = lastStep;
                     if (pre > 0) {
-                        lastStep = patsOld[lastStep][pre - 1];
+                        lastStep = pathsOld[lastStep][pre - 1];
                     }
                 }
                 minEnergyThisRow.put(w, newEnergy);
@@ -167,10 +167,10 @@ public class SeamCarver {
             }
         }
     }
-    public    void removeHorizontalSeam(int[] seam) {
+    public void removeHorizontalSeam(int[] seam) {
         SeamRemover.removeHorizontalSeam(picture, seam);
-    }   // remove horizontal seam from picture
-    public    void removeVerticalSeam(int[] seam) {
+    }
+    public void removeVerticalSeam(int[] seam) {
         SeamRemover.removeVerticalSeam(picture, seam);
-    }   // remove vertical seam from picture
+    }
 }
