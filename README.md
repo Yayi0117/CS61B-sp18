@@ -27,6 +27,7 @@ The repository is organized into the following directories:
   - **Project 1: Data Structures**
   - **Project 2: Build Your Own Game (BYoG)**
   - **Project 3: Bear Maps**
+- **library-sp18/**: Contains the supporting library files required for the projects and assignments.
 
 ## Project Highlights
 
